@@ -1,0 +1,39 @@
+<repast.simphony.data2.engine.DataSetDescriptor>
+  <name>bbData</name>
+  <type>NON_AGGREGATE</type>
+  <sourceType>AdhocCollaboration.Blackboard</sourceType>
+  <inclTick>true</inclTick>
+  <inclBatchRun>false</inclBatchRun>
+  <inclRandomSeed>false</inclRandomSeed>
+  <scheduleParams>
+    <start>103.0</start>
+    <interval>0.0</interval>
+    <priority>-Infinity</priority>
+    <pType>LAST</pType>
+    <duration>-1.0</duration>
+    <frequency>ONE_TIME</frequency>
+    <hashCode>-608415152</hashCode>
+  </scheduleParams>
+  <atEnd>false</atEnd>
+  <methodDataSources class="linked-hash-map">
+    <entry>
+      <string>NumFinishedTasks</string>
+      <repast.simphony.data2.engine.MethodDataSourceDefinition>
+        <id>NumFinishedTasks</id>
+        <className>AdhocCollaboration.Blackboard</className>
+        <methodName>getNumFinishedTasks</methodName>
+      </repast.simphony.data2.engine.MethodDataSourceDefinition>
+    </entry>
+    <entry>
+      <string>LearnedCap</string>
+      <repast.simphony.data2.engine.MethodDataSourceDefinition>
+        <id>LearnedCap</id>
+        <className>AdhocCollaboration.Blackboard</className>
+        <methodName>getLearnedCap</methodName>
+      </repast.simphony.data2.engine.MethodDataSourceDefinition>
+    </entry>
+  </methodDataSources>
+  <countSources class="linked-hash-map"/>
+  <customNADataSources class="linked-hash-map"/>
+  <customAggDataSources class="linked-hash-map"/>
+</repast.simphony.data2.engine.DataSetDescriptor>
