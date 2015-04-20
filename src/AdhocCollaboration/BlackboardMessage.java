@@ -119,7 +119,7 @@ public class BlackboardMessage {
 	 * @param agent The agent who want to involved in this task
 	 */
 	public void addAgentToBiddingList(Agent agent){
-//		System.out.println(String.format("Add agent %d to task%d's bidding list", agent.getId(), task.getId()));
+//		print(String.format("Add agent %d to task%d's bidding list", agent.getId(), task.getId()));
 		this.agentBiddingList.add(agent);
 	}
 	
@@ -133,7 +133,7 @@ public class BlackboardMessage {
 			if(numFinishedSubtasks == subtasks.size()){
 				taskFinishedFlag = 1;
 				bb.setNumFinishedTasks();
-				System.out.println("Task " + task.getId() + "finished");
+				print("Task " + task.getId() + "finished");
 			}
 		}
 	
@@ -202,8 +202,8 @@ public class BlackboardMessage {
 	 * 
 	 */
 	public void printAssignment(){
-		System.out.println(String.format("Task %d assignment", task.getId()));
-		System.out.println(this.subtaskAssignment);
+		print(String.format("Task %d assignment", task.getId()));
+		print(this.subtaskAssignment);
 	}
 	
 	
@@ -230,7 +230,7 @@ public class BlackboardMessage {
 		   subtaskQualificationAllAgentsMap.put(s.getId(), s.getQualifiedAgentsCount());
 	   }
 	  
-	   System.out.println("Task "+this.task.getId()+ "  subtaskQualificationAllAgentsMap ----"+subtaskQualificationAllAgentsMap);
+	   print("Task "+this.task.getId()+ "  subtaskQualificationAllAgentsMap ----"+subtaskQualificationAllAgentsMap);
 	   //after Printing  reset the Count and clear the Map
 	   resetSubtaskQualificationCount();
 	   subtaskQualificationAllAgentsMap.clear();
@@ -256,20 +256,20 @@ public class BlackboardMessage {
    
    public void PrintSubtaskQualificationBiddingAgentsMap(ArrayList<Agent> agentBiddingList){
 	   for (SubTask s : this.subtasks){
-//		   System.out.println("Subtabsk ~~~~~~"+s.getId());
+//		   print("Subtabsk ~~~~~~"+s.getId());
 		   for(Agent agent: agentBiddingList){
-//			   System.out.println("agents Cap >= subtask Cap ???");
-//			   System.out.println("AgentID "+agent.getId()+" Cap ="+agent.getCapabilityQuality(s.getId()));
-//			   System.out.println("Subtask Cap = "+s.getCap());
+//			   print("agents Cap >= subtask Cap ???");
+//			   print("AgentID "+agent.getId()+" Cap ="+agent.getCapabilityQuality(s.getId()));
+//			   print("Subtask Cap = "+s.getCap());
 			   if (agent.getCapabilityQuality(s.getId())>=s.getQuality()){
-//				   System.out.println("Yes>>>>>>");
+//				   print("Yes>>>>>>");
 				   s.addQualifiedBiddingAgentsCount();
 				   
 			   }
 		   }
 		   this.subtaskQualificationBiddingAgentsMap.put(s.getId(), s.getQualifiedBiddingAgentsCount());
 	   }
-	   System.out.println("Task "+this.task.getId()+ "  subtaskQualificationBiddingAgentsMap ----"+this.subtaskQualificationBiddingAgentsMap);
+	   print("Task "+this.task.getId()+ "  subtaskQualificationBiddingAgentsMap ----"+this.subtaskQualificationBiddingAgentsMap);
 	   //after Printing  reset the Count and clear the Map
 	   resetSubtaskQualificationBiddingAgentsCount();
 	   this.subtaskQualificationBiddingAgentsMap.clear();
@@ -283,7 +283,7 @@ public class BlackboardMessage {
 	   for(SubTask s: this.subtasks){
 		   Line+="[Id "+ s.getId()+"|"+s.getNumAgents()+"|"+s.getQuality()+"] ";
 	   }
-	   System.out.println("Subtasks :"+Line);
+	   print("Subtasks :"+Line);
 
    }
    
@@ -295,6 +295,24 @@ public HashMap<Integer, Integer> getSubtaskQualificationBiddingAgentsMap() {
 public void setSubtaskQualificationBiddingAgentsMap(
 		HashMap<Integer, Integer> subtaskQualificationBiddingAgentsMap) {
 	this.subtaskQualificationBiddingAgentsMap = subtaskQualificationBiddingAgentsMap;
+}
+
+/** debug method */
+@SuppressWarnings("unused")
+private void print(String s){
+	if (PrintClass.DebugMode && PrintClass.printClass){
+		System.out.println(this.getClass().getSimpleName()+"::"+s);
+	}else if(PrintClass.DebugMode){
+		System.out.println(s);
+	}
+}
+
+private void print(HashMap<Integer, ArrayList<Integer>> map){
+	if (PrintClass.DebugMode && PrintClass.printClass){
+		System.out.println(this.getClass().getSimpleName()+"::"+map);
+	}else if(PrintClass.DebugMode){
+		System.out.println(map);
+	}
 }
 
 

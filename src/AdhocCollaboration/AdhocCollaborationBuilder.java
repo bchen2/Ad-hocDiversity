@@ -12,6 +12,8 @@ import repast.simphony.util.collections.IndexedIterable;
 
 
 public class AdhocCollaborationBuilder extends DefaultContext<Object> implements ContextBuilder<Object> {
+
+	
 	/* (non-Javadoc)
 	 * @see repast.simphony.dataLoader.ContextBuilder#build(repast.simphony.context.Context)
 	 */
@@ -96,7 +98,7 @@ public class AdhocCollaborationBuilder extends DefaultContext<Object> implements
 			b.AddToAgentMap(i, newAgent);	
 		}
 
-		System.out.println("return context");
+		print("return context");
 		return context;
 	}
 	
@@ -109,8 +111,12 @@ public class AdhocCollaborationBuilder extends DefaultContext<Object> implements
     /** debug method */
     @SuppressWarnings("unused")
 	private void print(String s){
-		System.out.println(getClass()+"::"+s);
-    }
+		if (PrintClass.DebugMode && PrintClass.printClass){
+			System.out.println(this.getClass().getSimpleName()+"::"+s);
+		}else if(PrintClass.DebugMode){
+			System.out.println(s);
+		}
+	}
     
     
     

@@ -109,12 +109,12 @@ public class MainAgent {
     	tick++;
       	if(tick > this.totalTick){
     		
-        	System.out.println("~~~~~~~~~ Current tick is "+tick);
+        	print("~~~~~~~~~ Current tick is "+tick);
         	blackboard.post(new ArrayList<BlackboardMessage>()); //post empty messageList, still trigger agents to act, new task to select, so they keep finishing current task on hand
     	}
       	else{
       		//blackboard.resetBlackboard();
-        	System.out.println("~~~~~~~~~ Current tick is "+tick);
+        	print("~~~~~~~~~ Current tick is "+tick);
         	
         	maintainAO();
         	
@@ -123,13 +123,13 @@ public class MainAgent {
         	Task newTask = findNewTask();
         	postMessages(newTask);//this triggers agent to act
         	
-        	System.out.println("Finished Task = "+this.blackboard.getNumFinishedTasks());
+        	print("Finished Task = "+this.blackboard.getNumFinishedTasks());
       	}
     
     	
     	if (tick==this.totalTick+this.ticksToFinish+2){//this gives agent chance to finish the task that auctioned off at the last tick(total tick)
     		print("!!!!!!!!!!!!!!!!!!!!!!!!!!!END");
-    		System.out.println("Total # agents have been putting in KillingQueue = "+haveAddedToKillingQueue+"   Should kill "+(agentOpenness * agentCount));
+    		print("Total # agents have been putting in KillingQueue = "+haveAddedToKillingQueue+"   Should kill "+(agentOpenness * agentCount));
 			RunEnvironment.getInstance().endRun();
     	}
     	
@@ -157,7 +157,7 @@ public class MainAgent {
 	        		selectedAgent = getOneAgent();
 	        	}
 	        	killingQueue.add(selectedAgent);
-	        	System.out.println(String.format("Add agent %d into killing queue", selectedAgent.getId()));
+	        	print(String.format("Add agent %d into killing queue", selectedAgent.getId()));
 				
 				haveAddedToKillingQueue++;
 			}
@@ -402,7 +402,7 @@ public class MainAgent {
     		//ArrayList<BlackboardMessage> messagesToPost = new ArrayList<BlackboardMessage>(returnedMessages);
     		messagesToPost.addAll(returnedMessages);
     		for (BlackboardMessage Msg: returnedMessages){
-    			System.out.println(String.format("Post Returned task -- task %d to blackboard ", Msg.getTask().getId()));
+    			print(String.format("Post Returned task -- task %d to blackboard ", Msg.getTask().getId()));
     			
     		}
     	}
@@ -411,7 +411,7 @@ public class MainAgent {
     	//adding newly founded decomposed task
     	messagesToPost.add(new BlackboardMessage(task, task.getSubtasks(),blackboard));
     	returnedMessages.clear();
-    	System.out.println(String.format("Post new task -- task %d to blackboard ", task.getId()));
+    	print(String.format("Post new task -- task %d to blackboard ", task.getId()));
     	blackboard.post(messagesToPost); 
     	
     	
@@ -480,15 +480,15 @@ public class MainAgent {
 		context.remove(agent);
 
 
-		System.out.println(String.format("Kill agent %d", agent.getId()));
-		System.out.println("Killed agents are "+ blackboard.getKilledAgentSet());
+		print(String.format("Kill agent %d", agent.getId()));
+		print("Killed agents are "+ blackboard.getKilledAgentSet());
 	}
     
     @Watch (watcheeClassName = "AdhocCollaboration.Blackboard",
 			watcheeFieldNames = "newAssignments",
 			whenToTrigger = WatcherTriggerSchedule.IMMEDIATE)
     public void receiveReturnedMessage(){
-    	System.out.println(String.format("MainAgent is receiving returned messages"));
+    	print(String.format("MainAgent is receiving returned messages"));
     	returnedMessages.addAll(blackboard.getReturnedMessages());
     }
     
@@ -503,8 +503,7 @@ public class MainAgent {
 		blackboard.addAgent(newAgent);
 		blackboard.AddToAgentMap(newAgent.getId(), newAgent );
 		blackboard.setNumUnassignedAgents(blackboard.getNumUnassignedAgents()+1);
-		System.out.print(String.format("Add new agent %d ", newAgent.getId()));
-		System.out.println();
+		print(String.format("Add new agent %d ", newAgent.getId()));
     }
 	
 
@@ -517,25 +516,30 @@ public class MainAgent {
 		IndexedIterable<Agent> agents = context.getObjects(Agent.class);
 		int randomNum = random.nextInt(agents.size());
 	
-		//System.out.println("Do not Kill agents "+NonKillAgentId1+" "+NonKillAgentId2+" "+NonKillAgentId3 );
+		//print("Do not Kill agents "+NonKillAgentId1+" "+NonKillAgentId2+" "+NonKillAgentId3 );
 		//do not choose agent which agent number is "NonKillAgentId1" to kill
 		int choosenAgentId=agents.get(randomNum).getId();
 		while (choosenAgentId==NonKillAgentId1 || choosenAgentId==NonKillAgentId2 ||choosenAgentId==NonKillAgentId3){
-			System.out.println("Do not Kill this agent !!!!!!!!!!!!!!!!!!!!!!!");
+			print("Do not Kill this agent !!!!!!!!!!!!!!!!!!!!!!!");
 			randomNum = random.nextInt(agents.size());
 			choosenAgentId=agents.get(randomNum).getId();
 		}
 		
 		
 		Agent selectedAgent = agents.get(randomNum);
-		System.out.println(String.format("Get random agent %d to kill", selectedAgent.getId()));
+		print(String.format("Get random agent %d to kill", selectedAgent.getId()));
 		return selectedAgent;
 	}
 	
-    /** debug method */
-    private void print(String s){
-		System.out.println(getClass()+"::"+s);
-    }
+	   /** debug method */
+    @SuppressWarnings("unused")
+	private void print(String s){
+		if (PrintClass.DebugMode && PrintClass.printClass){
+			System.out.println(this.getClass().getSimpleName()+"::"+s);
+		}else if(PrintClass.DebugMode){
+			System.out.println(s);
+		}
+	}
     
     /**
      * 

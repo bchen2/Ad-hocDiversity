@@ -75,7 +75,7 @@ public class Agent {
 	
 	
 	public Agent(int parmAgentId, Blackboard b, int type, double agentQualityMax,int initalCapNummber) {
-		//System.out.println("******adding a new agent now");
+		//print("******adding a new agent now");
 		initalCapNum=initalCapNummber	;	
 		agentId = parmAgentId;
 		agentType = type;
@@ -220,8 +220,8 @@ public class Agent {
 		//update Openness
 		this.updateOpenness();
 		
-//		System.out.println("AO = "+this.agentOpennessPerception);
-//		System.out.println("TO = "+this.taskOpennessPerception);
+//		print("AO = "+this.agentOpennessPerception);
+//		print("TO = "+this.taskOpennessPerception);
 		
 		//Choose task by Calculating potentialUtility accounting to different task selection strategies
 		for(BlackboardMessage bm : taskList){
@@ -284,7 +284,7 @@ public class Agent {
 					potentialUtility= addDecay(potentialUtility, bm);
 				}
 				
-//				System.out.println("Task "+bm.getTask().getId() +" potential = "+potentialUtility);
+//				print("Task "+bm.getTask().getId() +" potential = "+potentialUtility);
 				
 				//choose the one that has maxPotentialUtility
 				if(potentialUtility > maxPotentialUtility){
@@ -301,20 +301,20 @@ public class Agent {
 		//agent bid for the task
 		if(maxPotentialUtilityMessage != null){
 			//add agent to this message's agentBiddingList
-//			System.out.println("Agent "+agentId+" capbility = "+this.qualityList);
-//			System.out.println("Agent "+agentId+" maxPotential = "+maxPotentialUtility);
-//			System.out.println(String.format("Agent %d bids for task %d ", agentId, maxPotentialUtilityMessage.getTask().getId()));
+//			print("Agent "+agentId+" capbility = "+this.qualityList);
+//			print("Agent "+agentId+" maxPotential = "+maxPotentialUtility);
+//			print(String.format("Agent %d bids for task %d ", agentId, maxPotentialUtilityMessage.getTask().getId()));
 			
-//			System.out.println("Agent "+agentId+" capDiff for the last task= "+this.capDiff +"\n");
+//			print("Agent "+agentId+" capDiff for the last task= "+this.capDiff +"\n");
 			maxPotentialUtilityMessage.addAgentToBiddingList(this);
 			this.TaskTobidAtOneTick=maxPotentialUtilityMessage.getTask().getType();
 			taskToBidMessage = maxPotentialUtilityMessage;
 		}
 		else{
-//			System.out.println("Agent "+agentId+" capbility = "+this.qualityList);
-//			System.out.println("Agent "+agentId+" maxPotential = "+maxPotentialUtility);
-//			System.out.println(String.format("Agent %d bids for No task", agentId));
-//			System.out.println("Agent "+agentId+" capDiff for the last task = "+this.capDiff+"\n");
+//			print("Agent "+agentId+" capbility = "+this.qualityList);
+//			print("Agent "+agentId+" maxPotential = "+maxPotentialUtility);
+//			print(String.format("Agent %d bids for No task", agentId));
+//			print("Agent "+agentId+" capDiff for the last task = "+this.capDiff+"\n");
 			this.TaskTobidAtOneTick=0;
 		}
 		
@@ -382,8 +382,8 @@ public class Agent {
 			
 			potentialUtility=(double) potentialUtility/NumSubtaskObsered;//normalize it 
 		}
-	//System.out.println("agent "+ this.agentId+ "potentialUtility for task "+ bm.getTask().getId()+ "=  "+ potentialUtility);
-	//System.out.println("Agent "+agentId+" capDiff for task "+bm.getTask().getId()+" = "+this.capDiff);
+	//print("agent "+ this.agentId+ "potentialUtility for task "+ bm.getTask().getId()+ "=  "+ potentialUtility);
+	//print("Agent "+agentId+" capDiff for task "+bm.getTask().getId()+" = "+this.capDiff);
 		return potentialUtility;
 	}
 	
@@ -420,8 +420,8 @@ public class Agent {
 			
 			potentialUtility=(double) potentialUtility/NumSubtaskObsered;//normalize it 
 		}
-	//System.out.println("agent "+ this.agentId+ "potentialUtility for task "+ bm.getTask().getId()+ "=  "+ potentialUtility);
-	//System.out.println("Agent "+agentId+" capDiff for task "+bm.getTask().getId()+" = "+this.capDiff);
+	//print("agent "+ this.agentId+ "potentialUtility for task "+ bm.getTask().getId()+ "=  "+ potentialUtility);
+	//print("Agent "+agentId+" capDiff for task "+bm.getTask().getId()+" = "+this.capDiff);
 		return potentialUtility;
 	}
 	
@@ -459,7 +459,7 @@ public class Agent {
 		if(tauJ!=-1){//if found such tauJ
 			
 			
-//			System.out.println("Task "+bm.getTask().getId()+" U_doing = "+ maxQualDiff);
+//			print("Task "+bm.getTask().getId()+" U_doing = "+ maxQualDiff);
 			
 			/**finding U_observe*/
 			//subtaskAll.remove(bm.getSubtasks().get(tauJ));
@@ -476,17 +476,17 @@ public class Agent {
 				 }
 			 potentialUtility=potentialUtility+ 0.5*(potentialUtilityFromObservation/numSubtaskObserved);
 			 
-//			 System.out.println("Task "+bm.getTask().getId()+" U_observe= "+ (potentialUtility-maxQualDiff));
+//			 print("Task "+bm.getTask().getId()+" U_observe= "+ (potentialUtility-maxQualDiff));
 		}
 		else {//if no qualified capability then do not bid
-//			System.out.println("Task "+bm.getTask().getId()+" U_doing = -Infinity");
-//			System.out.println("Task "+bm.getTask().getId()+" U_observe = -Infinity");
+//			print("Task "+bm.getTask().getId()+" U_doing = -Infinity");
+//			print("Task "+bm.getTask().getId()+" U_observe = -Infinity");
 			potentialUtility=Double.NEGATIVE_INFINITY;
 		}
 		
-		//System.out.println("agent "+ this.agentId+ "potentialUtility for task "+ bm.getTask().getId()+ "=  "+ potentialUtility);
-		//System.out.println("Agent "+agentId+" capDiff for task "+bm.getTask().getId()+" = "+this.capDiff);
-//		System.out.println("agent "+ this.agentId+ "U_learn for task ="+potentialUtility);
+		//print("agent "+ this.agentId+ "potentialUtility for task "+ bm.getTask().getId()+ "=  "+ potentialUtility);
+		//print("Agent "+agentId+" capDiff for task "+bm.getTask().getId()+" = "+this.capDiff);
+//		print("agent "+ this.agentId+ "U_learn for task ="+potentialUtility);
 		return potentialUtility;
 	}
 	
@@ -531,7 +531,7 @@ public class Agent {
 			U_solve=Double.NEGATIVE_INFINITY;
 		}
 		
-//		System.out.println("Task "+bm.getTask().getId()+" U_solve = "+U_solve);
+//		print("Task "+bm.getTask().getId()+" U_solve = "+U_solve);
 		
 		return U_solve;
 	}
@@ -547,12 +547,12 @@ public class Agent {
 		
 		
 		if (U_learn>0){
-//			System.out.println("W_L= "+W_L+ "  W_L*U_learn= "+W_L*U_learn);
+//			print("W_L= "+W_L+ "  W_L*U_learn= "+W_L*U_learn);
 			bb.setNumU_learn(bb.getNumU_learn()+1);
 			bb.setU_learnTotal(bb.getU_learnTotal()+U_learn);
 		}
 		if ( U_solve>0){
-//			System.out.println("W_S= "+W_S+ "  W_S*U_solve= "+W_S*U_solve);
+//			print("W_S= "+W_S+ "  W_S*U_solve= "+W_S*U_solve);
 			bb.setNumU_solve(bb.getNumU_solve()+1);
 			bb.setU_solveTotal(bb.getU_solveTotal()+U_solve);
 		}
@@ -644,7 +644,7 @@ public class Agent {
 	private double ComputePotentialUtilityStrategy5(BlackboardMessage bm){
 		// we set W_L=AO, W_S=1-AO, so we have U=AO*U_learn+(1-AO)*U_solve .
 		double W_S=1-this.agentOpennessPerception;
-//		System.out.println("~~~~~~~~~~~~~~~1-AO= "+W_S);
+//		print("~~~~~~~~~~~~~~~1-AO= "+W_S);
 		return findTotalPitentialUtilities( bm,this.agentOpennessPerception,W_S);
 	}
 	
@@ -720,7 +720,7 @@ public class Agent {
 			ticksToFinishRunning--;
 			Task task = taskToBeExcutedMessage.getTask();
 			int remainingTicks=task.getTickToFinish()-ticksToFinishRunning ;	
-			System.out.println(String.format("Agent %-5d start executing subtask(s) of task%-5d  %d/%d",this.agentId, task.getId(), remainingTicks, task.getTickToFinish()));
+			print(String.format("Agent %-5d start executing subtask(s) of task%-5d  %d/%d",this.agentId, task.getId(), remainingTicks, task.getTickToFinish()));
 //			for(int i = 0; i < subtaskToBeExecuted.size(); i++){
 //				try{
 ////					Thread.sleep(10);
@@ -730,8 +730,8 @@ public class Agent {
 		}
 		else{
 			Task task = taskToBeExcutedMessage.getTask();
-			//System.out.println(String.format("Agent %d start executing subtasks of task%d",this.agentId,task.getId()));
-//			System.out.println(String.format("Agent %-5d start executing subtasks of task%-5d  %d/%d",this.agentId, task.getId(), task.getTickToFinish(), task.getTickToFinish()));
+			//print(String.format("Agent %d start executing subtasks of task%d",this.agentId,task.getId()));
+//			print(String.format("Agent %-5d start executing subtasks of task%-5d  %d/%d",this.agentId, task.getId(), task.getTickToFinish(), task.getTickToFinish()));
 			int numFinishedSubtasks = 0;
 			for(SubTask subtask : subtaskToBeExecuted){
 				try{
@@ -762,7 +762,7 @@ public class Agent {
 			
 			bb.setNumFinishedSubtasks(numFinishedSubtasks);//update the total NumFinishedSubtasks on blackboard
 //			isBusy = false;
-			System.out.println(String.format("Agent %d finished %d subtasks of task %-4d",this.agentId, numFinishedSubtasks,task.getId()));
+			print(String.format("Agent %d finished %d subtasks of task %-4d",this.agentId, numFinishedSubtasks,task.getId()));
 		}
 	}
 	
@@ -781,8 +781,8 @@ public class Agent {
 		
 		
 		ArrayList<SubTask> subtaskAll = new ArrayList<SubTask>(task.getSubtasks());
-		System.out.println(this.agentId+" read assingment  "+temporaryMessage.getAssignment());
-		System.out.println(this.agentId+" to do subtask "+temporaryMessage.getSubtasksAssignmentByAgent(agentId));
+		print(this.agentId+" read assingment  "+temporaryMessage.getAssignment());
+		print(this.agentId+" to do subtask "+temporaryMessage.getSubtasksAssignmentByAgent(agentId));
 		for (SubTask subtask: temporaryMessage.getSubtasksAssignmentByAgent(agentId)){
 			double elearn=0.4;//learn type is learn by Practice, has effectiveness of 2
 			int subtaskId=subtask.getId();
@@ -799,8 +799,9 @@ public class Agent {
 			if (newQuality>1){//max is 1
 				newQuality=1;
 			}
-			System.out.printf("Agent %d 's capability %d gained %.4f from completing subtask%d (from task%d),    %.4f---> %.4f ",this.getId(),capId,DeltaQuality,subtaskId,task.getId(),this.getCapabilityQuality(subtaskId),newQuality);
-			System.out.println();
+			print(String.format("Agent %d 's capability %d gained %.4f from completing subtask%d (from task%d),    %.4f---> %.4f \n",this.getId(),capId,DeltaQuality,subtaskId,task.getId(),this.getCapabilityQuality(subtaskId),newQuality));
+//			System.out.printf("Agent %d 's capability %d gained %.4f from completing subtask%d (from task%d),    %.4f---> %.4f \n",this.getId(),capId,DeltaQuality,subtaskId,task.getId(),this.getCapabilityQuality(subtaskId),newQuality);
+			
 			//update newQuality
 			this.setCapabilityQuality(capId, newQuality);
 			subtaskAll.remove(subtask);//remove the subtask executed by this agent  from all the subtasks of this task, these remaining subtasks are the ones this agent learn from observing	
@@ -828,30 +829,30 @@ public class Agent {
 			this.updateIndividualLearnedCap(maxGain);//record individual learned quality
 			this.TaskLearningGain=TaskLearningGain+maxGain;
 			
-			System.out.println(String.format("Agent %d gain learning %.4f utility by observating,	%.4f---> %.4f ", agentId, maxGain, getCapabilityQuality(observingSubtask.getId()), updatedQuality));
+			print(String.format("Agent %d gain learning %.4f utility by observating,	%.4f---> %.4f ", agentId, maxGain, getCapabilityQuality(observingSubtask.getId()), updatedQuality));
 			this.setCapabilityQuality(capId, updatedQuality);
 		}
 		
 		this.TaskIdForLearningGain=task.getType();
-		System.out.println("~~~~~~~~~"+this.agentId+"    "+this.TaskIdForLearningGain);
+		print("~~~~~~~~~"+this.agentId+"    "+this.TaskIdForLearningGain);
 		temporaryMessage = null;
-//		System.out.println("#############oberving size: "+subtaskAll.size());
+//		print("#############oberving size: "+subtaskAll.size());
 //		// learn by observing from the other subtasks other than the ones in subtaskToBeExecuted
 //		for (SubTask subtaskOberving:subtaskAll){
 //			double elearn=0.2;//learn type is learn by Observing, has effectiveness of 1
 //			int subtaskId=subtaskOberving.getId();
-//			System.out.println("@@@@@@subtaskId="+subtaskId);
+//			print("@@@@@@subtaskId="+subtaskId);
 //			int capId=subtaskId-1;
-//			System.out.println("learning from "+taskToBeExecuted.getAssignment().get(subtaskId));
+//			print("learning from "+taskToBeExecuted.getAssignment().get(subtaskId));
 //			int AgentToLearnFromId=taskToBeExecuted.getAssignment().get(subtaskId).get(0);//get the first agent's id from the assignment for this subtask, we can choose the one that have max learning gain
 //			//TODO one that have max learning gain
-//			System.out.println("!!!!!!!!!AgentToLearnFromId"+AgentToLearnFromId);
-//			System.out.println("==========================================");
-//			//System.out.println("@@@@@@@@@@@@ai"+(double)this.getCapabilityQuality(subtaskId));
+//			print("!!!!!!!!!AgentToLearnFromId"+AgentToLearnFromId);
+//			print("==========================================");
+//			//print("@@@@@@@@@@@@ai"+(double)this.getCapabilityQuality(subtaskId));
 //			//get the capbility of the second agent 
-//			System.out.println("@@@@@@@@@@@@@@getting agent "+bb.getAgentMap().get(AgentToLearnFromId).agentId);
-//			System.out.println("cap is"+bb.getAgentMap().get(AgentToLearnFromId).getCapabilityQuality(subtaskId));
-//			//System.out.println("@@@@@@@@@@@@other "+(double)bb.getAgentList().get(AgentToLearnFromId-1).getCapabilityQuality(subtaskId));
+//			print("@@@@@@@@@@@@@@getting agent "+bb.getAgentMap().get(AgentToLearnFromId).agentId);
+//			print("cap is"+bb.getAgentMap().get(AgentToLearnFromId).getCapabilityQuality(subtaskId));
+//			//print("@@@@@@@@@@@@other "+(double)bb.getAgentList().get(AgentToLearnFromId-1).getCapabilityQuality(subtaskId));
 //			if (this.getCapabilityQuality(subtaskId)<bb.getAgentMap().get(AgentToLearnFromId).getCapabilityQuality(subtaskId)){
 //				double LearningGain=(c*c - Math.pow((( (double)bb.getAgentMap().get(AgentToLearnFromId).getCapabilityQuality(subtaskId))-(double)this.getCapabilityQuality(subtaskId) - c),2))/((double)this.getCapabilityQuality(subtaskId)+epsilon);//learn by observation    getCapabilityQuality(subtaskId)=qualityList.get(subtaskId-1)
 //				double DeltaQuality=elearn*LearningGain; //the total quality gain from learning
@@ -860,13 +861,13 @@ public class Agent {
 //					newQuality=1;
 //				}
 //				System.out.printf("Agent %d 's capability %d gained %.4f from oberving subtask%d (from task%d) from Agent%d,    %.4f---> %.4f ",this.getId(),capId,DeltaQuality,subtaskId,task.getId(),AgentToLearnFromId,this.getCapabilityQuality(subtaskId),newQuality);
-//				System.out.println();
+//				print();
 //				//update newQuality
 //				this.setCapabilityQuality(capId, newQuality);
 //			}
 //			else 
 //			{
-//				System.out.println("No learning!!!");
+//				print("No learning!!!");
 //			}
 //		}	
 	}
@@ -990,18 +991,18 @@ public class Agent {
 		
 		//Updating TaskOpenness Perciption
 		if (taskOpennessOption==1){//Agent calculates task openness based on the tasks it has seen by itself. 
-			//System.out.println("===========================");
-			//System.out.println("agent "+this.agentId);
+			//print("===========================");
+			//print("agent "+this.agentId);
 				this.taskOpennessPerception=(double) newTaskSet.size()/this.encounteredTaskSet.size();
 			
 		}
 		else if (taskOpennessOption==2){// Agents share info and every agent has the same task openness 
-			//System.out.println("~~~~~====================================2222222222");
+			//print("~~~~~====================================2222222222");
 			//read it from blackboard
 			this.taskOpennessPerception=this.bb.getSharedTaskOpenness();
 		}
 		else{//taskOpenness option 3--Given the exact task openness in the beginning 
-			//System.out.println("~~~~~====================================33333333333");
+			//print("~~~~~====================================33333333333");
 			this.taskOpennessPerception=this.bb.getTaskOpenness();
 		}
 		// record taskOpennessPerception to Map
@@ -1045,7 +1046,7 @@ public class Agent {
 		}
 		
 		else{
-//			System.out.println("else~~~~");
+//			print("else~~~~");
 			return utility;
 		}
 		
@@ -1104,10 +1105,15 @@ public class Agent {
 		return taskOpennessPerception;
 	}
 
-	/** debug method */
-    private void print(String s){
-		System.out.println(getClass()+"::"+s);
-    }
+	   /** debug method */
+    @SuppressWarnings("unused")
+	private void print(String s){
+		if (PrintClass.DebugMode && PrintClass.printClass){
+			System.out.println(this.getClass().getSimpleName()+"::"+s);
+		}else if(PrintClass.DebugMode){
+			System.out.println(s);
+		}
+	}
 
 	public double getIndividualLearnedCap() {
 		return individualLearnedCap;
@@ -1191,8 +1197,12 @@ public class Agent {
 	public void setAgentType(int agentType) {
 		this.agentType = agentType;
 	}
+	
+	
+	
+	
 
-}
+}//end class
 
 /**
  * 
@@ -1373,19 +1383,19 @@ class Capabilities {
 		
 		if((double)ExpertCount >=  AgentSpec.length/3)
 		{
-		//	System.out.println("Expert");
+		//	print("Expert");
 		
 		return "Expert";
 		}
 		
 		else if ((double)AverageCount >=  AgentSpec.length/3)
 		{
-			//System.out.println("Average");
+			//print("Average");
 			return "Average";
 		}
 		
 		else{
-//			System.out.println("Novice");
+//			print("Novice");
 			return "Novice";
 		}
 	}

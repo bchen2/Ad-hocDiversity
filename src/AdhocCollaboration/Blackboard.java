@@ -155,7 +155,7 @@ public class Blackboard {
 	 *
 	 */
 	public void auction(){
-		System.out.println("auction start!");
+		print("auction start!");
 		//resetBlackboard();
 		//newMsg = false;
 		for(BlackboardMessage message : new ArrayList<BlackboardMessage>(messageList)){
@@ -194,13 +194,13 @@ public class Blackboard {
 			//message.setAssignment(assignment);
 			messageList.remove(message);
 			message.printAssignment();
-//			System.out.println(" subtasks"+subtasks+" Num_Agents"+Num_Agents+" Quality"+Quality););
+//			print(" subtasks"+subtasks+" Num_Agents"+Num_Agents+" Quality"+Quality););
 			message.PrintTaskDetail();
 			message.PrintSubtaskQualificationAllAgentsMap();
 			message.PrintSubtaskQualificationBiddingAgentsMap(agentBiddingList);
-			System.out.println("# of agent Bid for this Task = "+agentBiddingList.size()+"\n");
+			print("# of agent Bid for this Task = "+agentBiddingList.size()+"\n");
 		}	
-		System.out.println("All acution has done!");
+		print("All acution has done!");
 		newAssignments = true;
 	}
 	
@@ -404,7 +404,7 @@ public class Blackboard {
 	public void addNumAgentHasResponsed(){
 		numAgentsHasResponsed++;
 		if(numAgentsHasResponsed == agentCount){
-			System.out.println("All agent has responsed");
+			print("All agent has responsed");
 			allHasResponsed = true;
 			//newMsg = false;
 			numAgentsHasResponsed = 0;
@@ -498,7 +498,7 @@ public class Blackboard {
 
 	public void setAgentOpenness(double agentOpenness) {
 		this.agentOpenness = agentOpenness;
-		System.out.println("Set bb agentOpenness = "+agentOpenness);
+		print("Set bb agentOpenness = "+agentOpenness);
 	}
 
 
@@ -511,7 +511,7 @@ public class Blackboard {
 
 	public void setTaskOpenness(double taskOpenness) {
 		this.taskOpenness = taskOpenness;
-		System.out.println("Set bb taskOpenness = "+taskOpenness);
+		print("Set bb taskOpenness = "+taskOpenness);
 	}
 
 
@@ -744,6 +744,15 @@ public class Blackboard {
 		this.numU_solve = numU_solve;
 	}
 	
-
+	   /** debug method */
+	
+    @SuppressWarnings("unused")
+	private void print(String s){
+		if (PrintClass.DebugMode && PrintClass.printClass){
+			System.out.println(this.getClass().getSimpleName()+"::"+s);
+		}else if(PrintClass.DebugMode){
+			System.out.println(s);
+		}
+	}
 
 }
