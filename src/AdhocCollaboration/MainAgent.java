@@ -66,12 +66,12 @@ public class MainAgent {
 	private String averageTaskPerString;
 	private static int InitalTaskNumber=40;// the number of tasks that we wanted to intruduce in the enviroment before the simulation starts, when the simulation starts, we intruduce 1 new task at each tick
 	
-	
-	
+	Properties configTask;
+	Properties configFile; 
 	
     
     /** Creates a new instance of Model */
-    public MainAgent(Blackboard bb, double task_openness,int total_tick, int agent_count,int agent_types_scenario,double agent_openness,int initalCapNummber) {
+    public MainAgent(Blackboard bb, double task_openness,int total_tick, int agent_count,int agent_types_scenario,double agent_openness,int initalCapNummber,String HardPercentageStr, String AveragePercentageStr) {
     	random = new Random();
     	print(" Main agent is called");
     	initalCapNum=initalCapNummber;
@@ -97,6 +97,27 @@ public class MainAgent {
 //    	tickToKill = (int) Math.ceil(totalTick / (agentOpenness * agentCount));
 //    	tickToKill2=getTickToKill2();
     	killPerTick= (agentOpenness * agentCount)/totalTick;
+    	
+    	this.hardTaskPerString=HardPercentageStr;
+    	this.averageTaskPerString=AveragePercentageStr;
+    	
+    	configTask = new Properties();
+    	try {
+//			configTask.load(this.getClass().getClassLoader().getResourceAsStream("config_task"+taskOpenness+".properties"));
+    		configTask.load(this.getClass().getClassLoader().getResourceAsStream("config_task"+"_TO"+taskOpenness+this.hardTaskPerString+this.averageTaskPerString));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	// get the task specifics from the configuration file
+    	 configFile = new Properties();
+    	try {
+			configFile.load(this.getClass().getClassLoader().getResourceAsStream("config_types.properties"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	
     	print("********* Task openness "+taskOpenness+"     Agent openness "+agentOpenness+"  Total agents needs to be killed = "+(agentOpenness * agentCount));
     }
@@ -196,17 +217,17 @@ public class MainAgent {
     		AddInitialTask();
     	}
     	
-    	//Get task's information from configuration files
-    	Properties configTask = new Properties();
-    	
-    	try {
-//			configTask.load(this.getClass().getClassLoader().getResourceAsStream("config_task"+taskOpenness+".properties"));
-    		configTask.load(this.getClass().getClassLoader().getResourceAsStream("config_task"+"_TO"+taskOpenness+this.hardTaskPerString+this.averageTaskPerString));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	
+//    	//Get task's information from configuration files
+//    	Properties configTask = new Properties();
+//    	
+//    	try {
+////			configTask.load(this.getClass().getClassLoader().getResourceAsStream("config_task"+taskOpenness+".properties"));
+//    		configTask.load(this.getClass().getClassLoader().getResourceAsStream("config_task"+"_TO"+taskOpenness+this.hardTaskPerString+this.averageTaskPerString));
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//    	
     	
     	
     	
@@ -254,13 +275,15 @@ public class MainAgent {
         	print("******* task type "+task_type);
         	
         	// get the task specifics from the configuration file
-        	Properties configFile = new Properties();
-        	try {
-				configFile.load(this.getClass().getClassLoader().getResourceAsStream("config_types.properties"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//        	Properties configFile = new Properties();
+//        	try {
+//				configFile.load(this.getClass().getClassLoader().getResourceAsStream("config_types.properties"));
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+        	
+        	
         	String num_subtasks = configFile.getProperty("Num_Subtasks"+task_type);
         	String subtasks  = configFile.getProperty("Subtasks"+task_type);	
         	String Num_Agents = configFile.getProperty("Num_Agents"+task_type);
@@ -315,30 +338,32 @@ public class MainAgent {
      * @throws IOException 
      */
     private void AddInitialTask() {
-    	//Get task's information from configuration files
-    	Properties configTask = new Properties();
+//    	//Get task's information from configuration files
+//    	Properties configTask = new Properties();
+//    	
+//    	try {
+////			configTask.load(this.getClass().getClassLoader().getResourceAsStream("config_task"+taskOpenness+".properties"));
+//    		configTask.load(this.getClass().getClassLoader().getResourceAsStream("config_task"+"_TO"+taskOpenness+this.hardTaskPerString+this.averageTaskPerString));
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
     	
-    	try {
-//			configTask.load(this.getClass().getClassLoader().getResourceAsStream("config_task"+taskOpenness+".properties"));
-    		configTask.load(this.getClass().getClassLoader().getResourceAsStream("config_task"+"_TO"+taskOpenness+this.hardTaskPerString+this.averageTaskPerString));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
     	
+//    	print("******* task type "+task_type);
+    	
+    	// get the task specifics from the configuration file
+//    	Properties configFile = new Properties();
+//    	try {
+//			configFile.load(this.getClass().getClassLoader().getResourceAsStream("config_types.properties"));
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
     	
     	for (int j=1;j<=InitalTaskNumber;j++){
     		String task_type = configTask.getProperty(Integer.toString(j)); 	
-//        	print("******* task type "+task_type);
-        	
-        	// get the task specifics from the configuration file
-        	Properties configFile = new Properties();
-        	try {
-				configFile.load(this.getClass().getClassLoader().getResourceAsStream("config_types.properties"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+
         	String num_subtasks = configFile.getProperty("Num_Subtasks"+task_type);
         	String subtasks  = configFile.getProperty("Subtasks"+task_type);	
         	String Num_Agents = configFile.getProperty("Num_Agents"+task_type);

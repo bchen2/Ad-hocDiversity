@@ -57,10 +57,10 @@ public class AdhocCollaborationBuilder extends DefaultContext<Object> implements
 		context.add(b);
 		print("Task openness "+taskOpenness);
 		// pass parameters to the main agent
-		MainAgent mainAgent = new MainAgent(b,taskOpenness, totalTick,agentCount, agentType, agentOpenness,initalCapNummber);
+		MainAgent mainAgent = new MainAgent(b,taskOpenness, totalTick,agentCount, agentType, agentOpenness,initalCapNummber,HardPercentageStr,AveragePercentageStr);
 		mainAgent.setTaskDistrubution(TaskDistrubution);//pass taskDistribution to the mainAgent, later the mainAgent will choose the congfig file based on the distrubution to pick task orders
-		mainAgent.setHardTaskPerString(HardPercentageStr);
-		mainAgent.setAverageTaskPerString(AveragePercentageStr);
+//		mainAgent.setHardTaskPerString(HardPercentageStr);
+//		mainAgent.setAverageTaskPerString(AveragePercentageStr);
 		mainAgent.setTicksToFinish(ticksToFinish);//pass tickTOFinish to mainAgent, so it can allow the last auctioned off task to have extra tick to get finished.
 		mainAgent.setContext(context);
 		context.add(mainAgent);
